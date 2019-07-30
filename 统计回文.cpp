@@ -1,56 +1,36 @@
-
-#include <iostream>
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdlib.h>
+#include<stdio.h>
+#include<iostream>
+#include<string>
 using namespace std;
 
-#define Max 200
-
-bool IsPalin(char * str, int length) {
-	int cnt = 0;
-	for (int i = 0; i < (length / 2); i++) {
-		if (str[i] != str[length - i - 1]) {
-			++cnt;
-			break;
+//判断回文字符串
+bool palindrome(const string& str) {	//传引用
+	int begin = 0;
+	int end = str.size() - 1;
+	while (begin<end) {
+		if (str[begin]!=str[end]) {
+			return false;
 		}
+		begin++;
+		end--;
 	}
-	if (cnt)
-		return false;
-	else
-		return true;
+	return true;
 }
-
-int main()
-{
-
-	char *A = (char *)malloc(100);
-	char *B = (char *)malloc(100);
+int main() {
+	std::string str1, str2;    
+	getline(cin, str1);    
+	getline(cin, str2);
 	int count = 0;
-	cin >> A;
-	cin >> B;
-	int ALen = strlen(A);
-	int BLen = strlen(B);
-	for (int i = 0; i <= ALen; i++) {
-		char *C = (char *)malloc(100);
-		if (i == 0) {
-			memcpy(C, B, BLen);
-			memcpy(C + BLen, A + i, ALen);
-			if (IsPalin(C, strlen(C)))
-				++count;
+	for (int i = 0; i <= str1.size(); ++i) { 
+		// 将字符串2插入到字符串1的每个位置，再判断是否是回文        
+		string str = str1;       
+		str.insert(i, str2);        
+		if (palindrome(str)) {
+			++count;
 		}
-		else {
-			memcpy(C, A, i);
-			memcpy(C + i, B, BLen);
-			memcpy(C + i + BLen, A + i, ALen - i);
-			if (IsPalin(C, ALen + BLen))
-				++count;
-		}
-		free(C);
-		C = NULL;
-	}
-	cout << count << endl;
-	free(A);
-	free(B);
+	}        
+	cout<<count<<endl;
+	system("pause");
 	return 0;
 }
